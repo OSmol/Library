@@ -1,1 +1,6 @@
-masha1 1234q  alex32 9993939j  tim23 888888i  nastya99 1234ut  reshotko28 123456i  makarov_a minsk12
+masha1 1234q;
+alex32 9993939j;
+tim23 888888i;
+nastya99 1234ut;
+reshotko28 123456i;
+makarov_a minsk12;

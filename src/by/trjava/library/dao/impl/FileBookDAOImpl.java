@@ -3,7 +3,6 @@ package by.trjava.library.dao.impl;
 import by.trjava.library.bean.Book;
 import by.trjava.library.dao.IBookDAO;
 import by.trjava.library.dao.exception.DAOException;
-
 import java.io.*;
 
 public class FileBookDAOImpl implements IBookDAO {
@@ -12,15 +11,27 @@ public class FileBookDAOImpl implements IBookDAO {
     public void take(Book book) throws DAOException{
         deleteFromFile(book,"resource\\availableBooks.txt" );
         writeInfoToFile(book,"resource\\takenBooks.txt", "", true);
+
     }
 
     @Override
     public void giveBack(Book book) throws DAOException{
+
         deleteFromFile(book,"resource\\takenBooks.txt" );
         writeInfoToFile(book,"resource\\availableBooks.txt", "", true);
     }
 
-    private void writeInfoToFile(Book book, String fileName, String info, boolean append){
+    @Override
+    public String getAvailableBooks() throws DAOException {
+        return readInfoFromFile("resource\\availableBooks.txt");
+    }
+
+    @Override
+    public String getTakenBooks() throws DAOException {
+        return readInfoFromFile("resource\\takenBooks.txt");
+    }
+
+    private void writeInfoToFile(Book book, String fileName, String info, boolean append) throws DAOException {
         PrintWriter pw = null;
 
         try {
@@ -32,10 +43,8 @@ public class FileBookDAOImpl implements IBookDAO {
                 for (String element: info.split(";"))
                     pw.printf("\n%s;", element.trim());
             }
-
         } catch (IOException e) {
-            System.err.println("ошибка открытия потока " + e);
-
+           throw new DAOException("Error! Unavailable to write to the file");
         } finally {
             if (pw != null) {
                 pw.close();
@@ -43,7 +52,7 @@ public class FileBookDAOImpl implements IBookDAO {
         }
     }
 
-    private String readInfoFromFile(String fileName){
+    private String readInfoFromFile(String fileName) throws DAOException {
 
         BufferedReader bufferedReader = null;
         StringBuilder stringBuilder = new StringBuilder();
@@ -55,50 +64,27 @@ public class FileBookDAOImpl implements IBookDAO {
                 stringBuilder.append(tmp);
 
         } catch (IOException e) {
-            e.printStackTrace();
+           throw new DAOException("Error! Unavailable to read this file!");
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new DAOException("Error! Unavailable to read this file!");
                 }
             }
         }
         return  stringBuilder.toString();
     }
 
-    private String  deleteFromFile(Book book, String fileName){
+    private void deleteFromFile(Book book, String fileName) throws DAOException {
 
         StringBuilder file =  new StringBuilder(readInfoFromFile(fileName));
 
-        if(doesBookExistInFile(book, file.toString())){
+        file.delete(file.indexOf(book.getAuthor()), file.indexOf(book.getAuthor())+ book.getAuthor().length());
+        file.delete(file.indexOf("'"+book.getBookName()+"';"),file.indexOf("'"+book.getBookName()+"';")+("'"+book.getBookName()+"';").length());
 
-            file.delete(file.indexOf(book.getAuthor()), file.indexOf(book.getAuthor())+book.getAuthor().length());
-            file.delete(file.indexOf("'"+book.getBookName()+"';"),file.indexOf("'"+book.getBookName()+"';")+("'"+book.getBookName()+"';").length());
-
-            writeInfoToFile(book, fileName ,file.toString().trim(), false);
-        }
-
-        else return "no book";
-
-        return "";
-    }
-
-   private boolean doesBookExistInFile(Book book, String fileInfo){
-        if(fileInfo.contains(book.getAuthor()+" "+ "'"+ book.getBookName()+"'"))
-            return true;
-
-        return  false;
-   }
-
-    public static void main(String [] args) throws DAOException {
-
-        Book book1 = new Book("from a", "h");
-
-        FileBookDAOImpl fileBookDAO = new FileBookDAOImpl();
-        fileBookDAO.giveBack(book1);
-
+        writeInfoToFile(book, fileName ,file.toString().trim(), false);
     }
 
 }
