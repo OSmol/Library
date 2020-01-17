@@ -33,7 +33,7 @@ public class ClientServiceImpl implements IClientService {
         IUserDAO factory = DAOFactory.getInstance().getUserDAO();
 
         if(loginAndPasswordValidation(user.getLogin(), user.getPassword(), factory))
-            throw new ServiceException("Error! Unable to register user");
+            return false;
         else {
             try {
                 factory.registration(user);
@@ -66,4 +66,5 @@ public class ClientServiceImpl implements IClientService {
 
         return false;
     }
+
 }

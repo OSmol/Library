@@ -5,7 +5,7 @@ import by.trjava.library.service.ILibraryService;
 import by.trjava.library.service.impl.ClientServiceImpl;
 import by.trjava.library.service.impl.LibraryServiceImpl;
 
-public class ServiceFactory{
+public final class ServiceFactory{
     private static final ServiceFactory instance = new ServiceFactory();
 
     private final ILibraryService ILibraryServiceImpl = new LibraryServiceImpl();
