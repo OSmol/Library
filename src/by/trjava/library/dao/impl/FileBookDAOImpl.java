@@ -9,9 +9,9 @@ public class FileBookDAOImpl implements IBookDAO {
 
     @Override
     public void take(Book book) throws DAOException{
+
         deleteFromFile(book,"resource\\availableBooks.txt" );
         writeInfoToFile(book,"resource\\takenBooks.txt", "", true);
-
     }
 
     @Override
@@ -23,11 +23,13 @@ public class FileBookDAOImpl implements IBookDAO {
 
     @Override
     public String getAvailableBooks() throws DAOException {
+
         return readInfoFromFile("resource\\availableBooks.txt");
     }
 
     @Override
     public String getTakenBooks() throws DAOException {
+
         return readInfoFromFile("resource\\takenBooks.txt");
     }
 

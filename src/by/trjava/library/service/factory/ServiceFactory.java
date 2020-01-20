@@ -17,7 +17,7 @@ public final class ServiceFactory{
         return instance;
     }
 
-    public IClientService getClentService(){
+    public IClientService getClientService(){
         return IClientServiceImpl;
     }
 

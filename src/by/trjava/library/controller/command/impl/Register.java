@@ -16,7 +16,7 @@ public class Register implements ICommand {
 
         String response;
 
-        IClientService factory = ServiceFactory.getInstance().getClentService();
+        IClientService factory = ServiceFactory.getInstance().getClientService();
         User user = new User(extractFirstParam(request), extractSecondParam(request));
 
         try {

@@ -15,7 +15,7 @@ public class SingIn implements ICommand {
 
         String response;
 
-        IClientService factory = ServiceFactory.getInstance().getClentService();
+        IClientService factory = ServiceFactory.getInstance().getClientService();
 
         try {
 

@@ -17,7 +17,7 @@ public class ClientServiceImpl implements IClientService {
         IUserDAO factory = DAOFactory.getInstance().getUserDAO();
 
         try {
-            if(loginAndPasswordValidation(login, password, factory))
+            if(userProfileExistenceCheck(login, password, factory))
                 return  true;
         } catch (ServiceException e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ public class ClientServiceImpl implements IClientService {
 
         IUserDAO factory = DAOFactory.getInstance().getUserDAO();
 
-        if(loginAndPasswordValidation(user.getLogin(), user.getPassword(), factory))
+        if(userDataCheck(user.getLogin(), factory))
             return false;
         else {
             try {
@@ -45,26 +45,66 @@ public class ClientServiceImpl implements IClientService {
 
     }
 
-    private boolean loginAndPasswordValidation(String login,  String password, IUserDAO factory) throws ServiceException {
+//    private boolean loginAndPasswordValidation(String login,  String password, IUserDAO factory) throws ServiceException {
+//
+//        if(login.length() ==0 && password.length() ==0)
+//            return false;
+//        else {
+//
+//            Pattern pattern = Pattern.compile("" + login + "\\s" + password + "");
+//            Matcher matcher ;
+//
+//            try {
+//                matcher = pattern.matcher(factory.getFullFile());
+//            } catch (DAOException e) {
+//                throw new ServiceException();
+//            }
+//
+//            if (matcher.find())
+//                return true;
+//        }
+//
+//        return false;
+//    }
 
-        if(login.length() ==0 && password.length() ==0)
-            return false;
-        else {
+    private boolean userDataCheck(String data,IUserDAO factory ) throws ServiceException {
+        Matcher matcher;
+        Pattern pattern;
 
-            Pattern pattern = Pattern.compile("" + login + "\\s" + password + "");
-            Matcher matcher ;
-
+        if(data.length()!=0){
+            pattern = Pattern.compile(data);
             try {
                 matcher = pattern.matcher(factory.getFullFile());
             } catch (DAOException e) {
                 throw new ServiceException();
             }
 
-            if (matcher.find())
+            if (matcher.lookingAt())
                 return true;
         }
 
-        return false;
+        return  false;
+    }
+
+    private boolean userProfileExistenceCheck(String login,  String password, IUserDAO factory) throws ServiceException {
+
+        Pattern pattern;
+        Matcher matcher ;
+
+        try{
+
+            pattern = Pattern.compile("" + login + "\\s" + password + "");
+            matcher = pattern.matcher(factory.getFullFile());
+
+            if (!matcher.find())
+                return false;
+
+
+        } catch (DAOException e) {
+            throw new ServiceException();
+        }
+
+       return true;
     }
 
 }

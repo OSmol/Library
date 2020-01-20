@@ -8,7 +8,7 @@ import java.util.Map;
 
 final  class CommandProvider {
 
-    private  final Map<CommandName, ICommand> commands = new HashMap<>();
+    private  final Map <CommandName, ICommand> commands = new HashMap<>();
 
     CommandProvider(){
         commands.put(CommandName.SING_IN, new SingIn());
