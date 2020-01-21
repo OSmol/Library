@@ -33,8 +33,8 @@ public final class Controller {
         return executionCommand;
     }
 
-//    public static void main(String[] args) {
-//        Controller controller = new Controller();
-//        System.out.println(controller.executeTask("SING_IN d =makarov_a; f=minsk12;"));
-//    }
+    public static void main(String[] args) {
+        Controller controller = new Controller();
+        System.out.println(controller.executeTask("TAKE_BOOK d =ak; f='h';"));
+    }
 }

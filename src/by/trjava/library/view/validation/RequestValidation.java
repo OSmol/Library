@@ -8,6 +8,5 @@ public class RequestValidation{
             return true;
 
         return false;
-
     }
 }

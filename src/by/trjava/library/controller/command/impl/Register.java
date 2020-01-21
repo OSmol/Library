@@ -47,11 +47,12 @@ public class Register implements ICommand {
 
     private String defineResponse(boolean result){
 
-        String response;
+        String response = "";
 
         if(result == true)
             response = "Registration completed!";
-        else response = "Sorry! There is a user with the same login!";
+        if (result == false)
+            response = "Sorry! There is a user with the same login!";
 
         return response;
     }

@@ -51,7 +51,7 @@ public class TakeBook implements ICommand {
         String response;
 
         if(result == true)
-            response = "This book is yours now";
+            response = "Now this book is yours!";
         else response = "Sorry, you can`t take this book!";
 
         return response;

@@ -72,15 +72,14 @@ public class ClientServiceImpl implements IClientService {
         Pattern pattern;
 
         if(data.length()!=0){
-            pattern = Pattern.compile(data);
+            pattern = Pattern.compile(""+data+"\\s");
             try {
                 matcher = pattern.matcher(factory.getFullFile());
+                if (matcher.find())
+                    return true;
             } catch (DAOException e) {
                 throw new ServiceException();
             }
-
-            if (matcher.lookingAt())
-                return true;
         }
 
         return  false;
@@ -93,12 +92,11 @@ public class ClientServiceImpl implements IClientService {
 
         try{
 
-            pattern = Pattern.compile("" + login + "\\s" + password + "");
+            pattern = Pattern.compile("." + login + "\\s" + password + ";");
             matcher = pattern.matcher(factory.getFullFile());
 
             if (!matcher.find())
                 return false;
-
 
         } catch (DAOException e) {
             throw new ServiceException();
@@ -107,4 +105,9 @@ public class ClientServiceImpl implements IClientService {
        return true;
     }
 
+    public static void main(String[] args) throws ServiceException {
+        ClientServiceImpl clientService = new ClientServiceImpl();
+
+        System.out.println(clientService.singIn("makarv_a", "j"));
+    }
 }

@@ -16,6 +16,7 @@ final  class CommandProvider {
         commands.put(CommandName.TAKE_BOOK, new TakeBook());
         commands.put(CommandName.GIVE_BACK_BOOK, new GiveBackBook());
         commands.put(CommandName.WRONG_REQUEST, new WrongRequest());
+        commands.put(CommandName.SHOW_BOOKS, new ShowBook());
     }
 
     ICommand getCommand(String name){

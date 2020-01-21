@@ -1,7 +1,9 @@
 package by.trjava.library.view;
 
 import by.trjava.library.controller.Controller;
+import by.trjava.library.view.menu.OperationsMenu;
 import by.trjava.library.view.menu.UserMenu;
+import by.trjava.library.view.validation.OperationMenuStopValidation;
 import by.trjava.library.view.validation.RequestValidation;
 
 public class View {
@@ -9,9 +11,14 @@ public class View {
 
         InformationInput informationInput = new InformationInput();
         Controller controller = new Controller();
+
         RequestValidation requestValidation = new RequestValidation();
         UserMenu userMenu = new UserMenu();
         String response;
+
+        OperationsMenu operationsMenu = new OperationsMenu();
+        OperationMenuStopValidation stopValidation = new OperationMenuStopValidation();
+
 
         do{
             userMenu.userMenuText();
@@ -20,6 +27,11 @@ public class View {
 
         }while (!requestValidation.requestValidation(response));
 
-            System.out.println("out");
+        do {
+            operationsMenu.operationsMenuText();
+            response = controller.executeTask( operationsMenu.operationMenuCreating(informationInput));
+            System.out.println(response);
+        }while (stopValidation.responseValidation(response));
+
     }
 }

@@ -42,7 +42,18 @@ public class LibraryServiceImpl implements ILibraryService {
 
         return false;
     }
-//
+
+    @Override
+    public String showAllAvailableBooks() throws ServiceException {
+
+        IBookDAO factory = DAOFactory.getInstance().getBookDAO();
+        try {
+            return  factory.getAvailableBooks();
+        } catch (DAOException e) {
+            throw new ServiceException("Error!Unable to show books");
+        }
+    }
+    //
 //    private boolean bookExistenceValidation(Book book, IBookDAO factory, String flag) throws ServiceException {/// single respons???
 //
 //        try {
@@ -66,8 +77,7 @@ public class LibraryServiceImpl implements ILibraryService {
     private boolean bookExistenceCheckForTaking(Book book, IBookDAO factory) throws ServiceException {
 
         try {
-            if (!factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'")
-                    && factory.getAvailableBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
+            if (factory.getAvailableBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
                 return true;
         } catch (DAOException e) {
             throw new ServiceException("Error!Unable to take this book!");
@@ -78,13 +88,20 @@ public class LibraryServiceImpl implements ILibraryService {
 
     private boolean bookExistenceCheckForGivingBack(Book book, IBookDAO factory) throws ServiceException {
         try {
-            if (factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'")
-                    && !factory.getAvailableBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
+            if (factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
                 return true;
         } catch (DAOException e) {
             throw new ServiceException("Error!Unable to give back this book!");
         }
 
         return false;
+    }
+
+    public static void main(String[] args) throws ServiceException {
+        Book  book = new Book("ak", "h");
+        IBookDAO factory = DAOFactory.getInstance().getBookDAO();
+
+        LibraryServiceImpl libraryService = new LibraryServiceImpl();
+        System.out.println(libraryService.bookExistenceCheckForTaking(book, factory));
     }
 }
