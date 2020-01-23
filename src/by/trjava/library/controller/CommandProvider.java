@@ -2,7 +2,6 @@ package by.trjava.library.controller;
 
 import by.trjava.library.controller.command.ICommand;
 import by.trjava.library.controller.command.impl.*;
-
 import java.util.HashMap;
 import java.util.Map;
 

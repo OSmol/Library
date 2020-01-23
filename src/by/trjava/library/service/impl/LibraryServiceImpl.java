@@ -47,32 +47,13 @@ public class LibraryServiceImpl implements ILibraryService {
     public String showAllAvailableBooks() throws ServiceException {
 
         IBookDAO factory = DAOFactory.getInstance().getBookDAO();
+
         try {
             return  factory.getAvailableBooks();
         } catch (DAOException e) {
             throw new ServiceException("Error!Unable to show books");
         }
     }
-    //
-//    private boolean bookExistenceValidation(Book book, IBookDAO factory, String flag) throws ServiceException {/// single respons???
-//
-//        try {
-//            if (flag.equals("take"))
-//                if (!factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'")
-//                        && factory.getAvailableBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
-//                    return true;
-//
-//            if (flag.equals("give"))
-//                if (factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'")
-//                        && !factory.getAvailableBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
-//                    return true;
-//
-//        } catch (DAOException e) {
-//            throw new ServiceException("Error!Unable to make operation with this book!");
-//        }
-//
-//        return false;
-//    }
 
     private boolean bookExistenceCheckForTaking(Book book, IBookDAO factory) throws ServiceException {
 
@@ -87,6 +68,7 @@ public class LibraryServiceImpl implements ILibraryService {
     }
 
     private boolean bookExistenceCheckForGivingBack(Book book, IBookDAO factory) throws ServiceException {
+
         try {
             if (factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
                 return true;
@@ -95,13 +77,5 @@ public class LibraryServiceImpl implements ILibraryService {
         }
 
         return false;
-    }
-
-    public static void main(String[] args) throws ServiceException {
-        Book  book = new Book("ak", "h");
-        IBookDAO factory = DAOFactory.getInstance().getBookDAO();
-
-        LibraryServiceImpl libraryService = new LibraryServiceImpl();
-        System.out.println(libraryService.bookExistenceCheckForTaking(book, factory));
     }
 }

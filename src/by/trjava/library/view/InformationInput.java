@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class InformationInput {
 
-    public int choiceInput(){
+    public int intInput(){
         Scanner scanner;
         int number;
 
@@ -14,7 +14,7 @@ public class InformationInput {
         return number;
     }
 
-    public String dataInput(){
+    public String stringInput(){
         Scanner scanner;
         String data;
 

@@ -21,6 +21,7 @@ public final class Controller {
         char delimiter = ' ';
 
         commandName = request.substring(0, request.indexOf(delimiter));
+
         return commandName;
     }
 
@@ -33,8 +34,4 @@ public final class Controller {
         return executionCommand;
     }
 
-    public static void main(String[] args) {
-        Controller controller = new Controller();
-        System.out.println(controller.executeTask("TAKE_BOOK d =ak; f='h';"));
-    }
 }

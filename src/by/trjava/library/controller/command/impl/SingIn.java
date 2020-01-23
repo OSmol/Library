@@ -18,7 +18,6 @@ public class SingIn implements ICommand {
         IClientService factory = ServiceFactory.getInstance().getClientService();
 
         try {
-
             response = defineResponse(factory.singIn(extractFirstParam(request), extractSecondParam(request)));
 
         } catch (ServiceException e) {
@@ -42,7 +41,6 @@ public class SingIn implements ICommand {
         secondParam = request.substring(request.lastIndexOf(DELIMITER1)+1, request.lastIndexOf(DELIMITER2));
 
         return secondParam;
-
     }
 
     private String defineResponse(boolean result){

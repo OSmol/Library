@@ -3,8 +3,8 @@ package by.trjava.library.view;
 import by.trjava.library.controller.Controller;
 import by.trjava.library.view.menu.OperationsMenu;
 import by.trjava.library.view.menu.UserMenu;
-import by.trjava.library.view.validation.OperationMenuStopValidation;
-import by.trjava.library.view.validation.RequestValidation;
+import by.trjava.library.view.validation.StopValidation;
+import by.trjava.library.view.validation.ResponseValidation;
 
 public class View {
     public static void main(String[] args) {
@@ -12,12 +12,12 @@ public class View {
         InformationInput informationInput = new InformationInput();
         Controller controller = new Controller();
 
-        RequestValidation requestValidation = new RequestValidation();
+        ResponseValidation responseValidation = new ResponseValidation();
         UserMenu userMenu = new UserMenu();
         String response;
 
         OperationsMenu operationsMenu = new OperationsMenu();
-        OperationMenuStopValidation stopValidation = new OperationMenuStopValidation();
+        StopValidation stopValidation = new StopValidation();
 
 
         do{
@@ -25,13 +25,13 @@ public class View {
             response = controller.executeTask(userMenu.userMenuRequestCreating(informationInput));
             System.out.println(response);
 
-        }while (!requestValidation.requestValidation(response));
+        }while (!responseValidation.responseValidation(response));
 
         do {
             operationsMenu.operationsMenuText();
             response = controller.executeTask( operationsMenu.operationMenuCreating(informationInput));
             System.out.println(response);
-        }while (stopValidation.responseValidation(response));
+        }while (!stopValidation.responseValidation(response));
 
     }
 }

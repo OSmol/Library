@@ -17,7 +17,7 @@ public class OperationsMenu {
         System.out.println("Enter book:");
     }
 
-    private void authorNametext(){
+    private void authorNameText(){
         System.out.println("Enter author:");
     }
 
@@ -25,7 +25,7 @@ public class OperationsMenu {
 
         StringBuilder request = new StringBuilder();
 
-        switch (informationInput.choiceInput()){
+        switch (informationInput.intInput()){
             case 1: return ("SHOW_BOOKS show");
             case 2: request.append("TAKE_BOOK "); break;
             case 3: request.append("GIVE_BACK_BOOK ");break;
@@ -33,15 +33,13 @@ public class OperationsMenu {
             default: return "WRONG_REQUEST Illegal input!Try again!;";
         }
 
-        authorNametext();
+        authorNameText();
         request.append("author=");
-        request.append(informationInput.dataInput());
+        request.append(informationInput.stringInput());
         request.append("; ");
         bookNameText();
         request.append("book=");
-       // request.append("'");
-        request.append(informationInput.dataInput());
-       // request.append("'");
+        request.append(informationInput.stringInput());
         request.append(";");
 
         return request.toString();

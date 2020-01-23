@@ -44,7 +44,6 @@ public class TakeBook implements ICommand {
         secondParam = request.substring(request.lastIndexOf(DELIMITER1)+1, request.lastIndexOf(DELIMITER2));
 
         return secondParam;
-
     }
 
     private String defineResponse(boolean result){

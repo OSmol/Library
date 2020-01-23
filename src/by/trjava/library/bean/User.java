@@ -1,16 +1,18 @@
 package by.trjava.library.bean;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     String login;
     String password;
 
     public  User(String login, String password){
-
         this.login = login;
         this.password = password;
-
     }
+
+    public User(){}
 
     public String getLogin() {
         return login;
@@ -18,5 +20,13 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ClientServiceImpl implements IClientService {
 
     @Override
-    public boolean singIn(String login, String password){
+    public boolean singIn(String login, String password) throws ServiceException {
 
         IUserDAO factory = DAOFactory.getInstance().getUserDAO();
 
@@ -20,8 +20,7 @@ public class ClientServiceImpl implements IClientService {
             if(userProfileExistenceCheck(login, password, factory))
                 return  true;
         } catch (ServiceException e) {
-            e.printStackTrace();
-            /////////////////////
+            throw new ServiceException("Error! Impossible to sing in!");
         }
 
         return false;
@@ -45,27 +44,6 @@ public class ClientServiceImpl implements IClientService {
 
     }
 
-//    private boolean loginAndPasswordValidation(String login,  String password, IUserDAO factory) throws ServiceException {
-//
-//        if(login.length() ==0 && password.length() ==0)
-//            return false;
-//        else {
-//
-//            Pattern pattern = Pattern.compile("" + login + "\\s" + password + "");
-//            Matcher matcher ;
-//
-//            try {
-//                matcher = pattern.matcher(factory.getFullFile());
-//            } catch (DAOException e) {
-//                throw new ServiceException();
-//            }
-//
-//            if (matcher.find())
-//                return true;
-//        }
-//
-//        return false;
-//    }
 
     private boolean userDataCheck(String data,IUserDAO factory ) throws ServiceException {
         Matcher matcher;
@@ -86,12 +64,10 @@ public class ClientServiceImpl implements IClientService {
     }
 
     private boolean userProfileExistenceCheck(String login,  String password, IUserDAO factory) throws ServiceException {
-
         Pattern pattern;
         Matcher matcher ;
 
         try{
-
             pattern = Pattern.compile("." + login + "\\s" + password + ";");
             matcher = pattern.matcher(factory.getFullFile());
 
@@ -103,11 +79,5 @@ public class ClientServiceImpl implements IClientService {
         }
 
        return true;
-    }
-
-    public static void main(String[] args) throws ServiceException {
-        ClientServiceImpl clientService = new ClientServiceImpl();
-
-        System.out.println(clientService.singIn("makarv_a", "j"));
     }
 }

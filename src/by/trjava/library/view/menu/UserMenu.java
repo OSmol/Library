@@ -23,7 +23,7 @@ public class UserMenu {
 
         StringBuilder request = new StringBuilder();
 
-        switch (informationInput.choiceInput()){
+        switch (informationInput.intInput()){
             case 1: request.append("SING_IN "); break;
             case 2: request.append("REGISTER "); break;
             default: return "WRONG_REQUEST Illegal input!;";
@@ -31,11 +31,11 @@ public class UserMenu {
 
         request.append("login=");
         loginInputText();
-        request.append(informationInput.dataInput());
+        request.append(informationInput.stringInput());
         request.append("; ");
         request.append("password=");
         passwordInputText();
-        request.append(informationInput.dataInput());
+        request.append(informationInput.stringInput());
         request.append(";");
 
         return request.toString();
