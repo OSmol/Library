@@ -7,6 +7,9 @@ import java.io.*;
 
 public class FileBookDAOImpl implements IBookDAO {
 
+    private final static String DELIMITER1 ="'";
+    private final static String DELIMITER2 ="';";
+
     @Override
     public void take(Book book) throws DAOException{
 
@@ -84,7 +87,7 @@ public class FileBookDAOImpl implements IBookDAO {
         StringBuilder file =  new StringBuilder(readInfoFromFile(fileName));
 
         file.delete(file.indexOf(book.getAuthor()), file.indexOf(book.getAuthor())+ book.getAuthor().length());
-        file.delete(file.indexOf("'"+book.getBookName()+"';"),file.indexOf("'"+book.getBookName()+"';")+("'"+book.getBookName()+"';").length());
+        file.delete(file.indexOf(DELIMITER1+book.getBookName()+DELIMITER2),file.indexOf(DELIMITER1+book.getBookName()+DELIMITER2)+(DELIMITER1+book.getBookName()+DELIMITER2).length());
 
         writeInfoToFile(book, fileName ,file.toString().trim(), false);
     }

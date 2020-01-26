@@ -25,6 +25,7 @@ final  class CommandProvider {
         try {
             commandName = CommandName.valueOf(name.toUpperCase());
             command = commands.get(commandName);
+
         }catch (IllegalArgumentException e){
             command = commands.get(CommandName.WRONG_REQUEST);
         }

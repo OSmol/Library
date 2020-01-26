@@ -21,7 +21,7 @@ public class OperationsMenu {
         System.out.println("Enter author:");
     }
 
-    public String operationMenuCreating(InformationInput informationInput){
+    public String operationMenuCreating(InformationInput informationInput) {
 
         StringBuilder request = new StringBuilder();
 
@@ -37,6 +37,7 @@ public class OperationsMenu {
         request.append("author=");
         request.append(informationInput.stringInput());
         request.append("; ");
+
         bookNameText();
         request.append("book=");
         request.append(informationInput.stringInput());

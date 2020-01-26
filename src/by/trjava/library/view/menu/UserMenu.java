@@ -19,14 +19,14 @@ public class UserMenu {
         System.out.println("Enter password");
     }
 
-    public String userMenuRequestCreating( InformationInput informationInput){
+    public String userMenuRequestCreating( InformationInput informationInput) {
 
         StringBuilder request = new StringBuilder();
 
         switch (informationInput.intInput()){
             case 1: request.append("SING_IN "); break;
             case 2: request.append("REGISTER "); break;
-            default: return "WRONG_REQUEST Illegal input!;";
+            default: return "WRONG_REQUEST Illegal input!Try again!;";
         }
 
         request.append("login=");

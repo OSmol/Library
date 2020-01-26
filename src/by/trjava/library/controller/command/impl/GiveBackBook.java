@@ -17,7 +17,7 @@ public class GiveBackBook implements ICommand{
         String response;
 
         ILibraryService factory = ServiceFactory.getInstance().getLibraryService();
-        Book book = new Book(extractFirstParam(request), extractSecondParam(request));//??
+        Book book = new Book(extractFirstParam(request), extractSecondParam(request));
 
         try {
 

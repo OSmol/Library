@@ -5,16 +5,21 @@ import java.util.Scanner;
 public class InformationInput {
 
     public int intInput(){
+
         Scanner scanner;
         int number;
 
         scanner =new Scanner(System.in);
-        number = scanner.nextInt();
+
+        if(scanner.hasNextInt())
+            number = scanner.nextInt();
+        else number =0;
 
         return number;
     }
 
     public String stringInput(){
+
         Scanner scanner;
         String data;
 

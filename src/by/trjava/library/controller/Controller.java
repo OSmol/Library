@@ -5,6 +5,7 @@ import by.trjava.library.controller.command.ICommand;
 public final class Controller {
 
     private final CommandProvider commandProvider = new CommandProvider();
+    private final static char DELIMITER = ' ';
 
     public String executeTask(String request){
         String response;
@@ -18,9 +19,8 @@ public final class Controller {
 
     private String executeCommand(String request){
         String  commandName;
-        char delimiter = ' ';
 
-        commandName = request.substring(0, request.indexOf(delimiter));
+        commandName = request.substring(0, request.indexOf(DELIMITER));
 
         return commandName;
     }
@@ -33,5 +33,4 @@ public final class Controller {
 
         return executionCommand;
     }
-
 }
