@@ -1,13 +1,16 @@
 package by.trjava.library.service.impl;
 
 import by.trjava.library.bean.Book;
-import by.trjava.library.dao.IBookDAO;
-import by.trjava.library.dao.exception.DAOException;
+import by.trjava.library.dao.*;
 import by.trjava.library.dao.factory.DAOFactory;
 import by.trjava.library.service.ILibraryService;
-import by.trjava.library.service.exception.ServiceException;
+import by.trjava.library.service.*;
+
 
 public class LibraryServiceImpl implements ILibraryService {
+
+    private final static String DELIMITER1 = "'";
+    private final static String DELIMITER2 = " ";
 
     @Override
     public boolean take(Book book) throws ServiceException {
@@ -50,31 +53,24 @@ public class LibraryServiceImpl implements ILibraryService {
 
         try {
             return  factory.getAvailableBooks();
+
         } catch (DAOException e) {
             throw new ServiceException("Error!Unable to show books");
         }
     }
 
-    private boolean bookExistenceCheckForTaking(Book book, IBookDAO factory) throws ServiceException {
+    private boolean bookExistenceCheckForTaking(Book book, IBookDAO factory) throws  DAOException {
 
-        try {
-            if (factory.getAvailableBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
+        if (factory.getAvailableBooks().contains(book.getAuthor() + DELIMITER2 + DELIMITER1 + book.getBookName() + DELIMITER1))
                 return true;
-        } catch (DAOException e) {
-            throw new ServiceException("Error!Unable to take this book!");
-        }
 
         return false;
     }
 
-    private boolean bookExistenceCheckForGivingBack(Book book, IBookDAO factory) throws ServiceException {
+    private boolean bookExistenceCheckForGivingBack(Book book, IBookDAO factory) throws  DAOException {
 
-        try {
-            if (factory.getTakenBooks().contains(book.getAuthor() + " " + "'" + book.getBookName() + "'"))
-                return true;
-        } catch (DAOException e) {
-            throw new ServiceException("Error!Unable to give back this book!");
-        }
+        if (factory.getTakenBooks().contains(book.getAuthor() + DELIMITER2 + DELIMITER1 + book.getBookName() + DELIMITER1))
+            return true;
 
         return false;
     }

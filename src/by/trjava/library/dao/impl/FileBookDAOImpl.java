@@ -2,83 +2,74 @@ package by.trjava.library.dao.impl;
 
 import by.trjava.library.bean.Book;
 import by.trjava.library.dao.IBookDAO;
-import by.trjava.library.dao.exception.DAOException;
+import by.trjava.library.dao.*;
 import java.io.*;
 
 public class FileBookDAOImpl implements IBookDAO {
 
-    private final static String DELIMITER1 ="'";
-    private final static String DELIMITER2 ="';";
+    private final static String DELIMITER1 = "'";
+    private final static String DELIMITER2 = "';";
+    private final static String DELIMITER3 = ";";
+    private final static String INFO = "";
+    private final static String PATH1 = "resource\\availableBooks.txt";
+    private final static String PATH2 = "resource\\takenBooks.txt";
 
     @Override
     public void take(Book book) throws DAOException{
 
-        deleteFromFile(book,"resource\\availableBooks.txt" );
-        writeInfoToFile(book,"resource\\takenBooks.txt", "", true);
+        deleteFromFile(book,PATH1 );
+        writeInfoToFile(book,PATH2, INFO, true);
     }
 
     @Override
     public void giveBack(Book book) throws DAOException{
 
-        deleteFromFile(book,"resource\\takenBooks.txt" );
-        writeInfoToFile(book,"resource\\availableBooks.txt", "", true);
+        deleteFromFile(book,PATH2 );
+        writeInfoToFile(book,PATH1, INFO, true);
     }
 
     @Override
     public String getAvailableBooks() throws DAOException {
 
-        return readInfoFromFile("resource\\availableBooks.txt");
+        return readInfoFromFile(PATH1);
     }
 
     @Override
     public String getTakenBooks() throws DAOException {
 
-        return readInfoFromFile("resource\\takenBooks.txt");
+        return readInfoFromFile(PATH2);
     }
 
     private void writeInfoToFile(Book book, String fileName, String info, boolean append) throws DAOException {
-        PrintWriter pw = null;
 
-        try {
-            pw =  new PrintWriter(new BufferedWriter(new FileWriter(new File(fileName), append)));
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(new File(fileName), append)))) {
 
-            if(info.length()==0)
-                pw.printf("\n%s '%s';", book.getAuthor().trim(),book.getBookName().trim());
-            if(info.length()!=0){
-                for (String element: info.split(";"))
+            if (info.length() == 0)
+                pw.printf("\n%s '%s';", book.getAuthor().trim(), book.getBookName().trim());
+            if (info.length() != 0) {
+                for (String element : info.split(DELIMITER3))
                     pw.printf("\n%s;", element.trim());
             }
         } catch (IOException e) {
-           throw new DAOException("Error! Unavailable to write to the file");
-        } finally {
-            if (pw != null) {
-                pw.close();
-            }
+            throw new DAOException("Error! Unavailable to write to the file");
         }
+
     }
 
     private String readInfoFromFile(String fileName) throws DAOException {
 
-        BufferedReader bufferedReader = null;
         StringBuilder stringBuilder = new StringBuilder();
+        String tmp;
 
-        try {
-            bufferedReader = new BufferedReader(new FileReader(fileName));
-            String tmp;
+        try(BufferedReader  bufferedReader = new BufferedReader(new FileReader(fileName))) {
+
             while ((tmp = bufferedReader.readLine()) != null)
                 stringBuilder.append(tmp);
 
         } catch (IOException e) {
            throw new DAOException("Error! Unavailable to read this file!");
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    throw new DAOException("Error! Unavailable to read this file!");
-                }
-            }
         }
+
         return  stringBuilder.toString();
     }
 

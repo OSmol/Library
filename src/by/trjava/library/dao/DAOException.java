@@ -1,4 +1,4 @@
-package by.trjava.library.dao.exception;
+package by.trjava.library.dao;
 
 public class DAOException extends Exception {
 

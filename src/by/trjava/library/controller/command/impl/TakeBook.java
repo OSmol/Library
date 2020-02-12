@@ -3,13 +3,14 @@ package by.trjava.library.controller.command.impl;
 import by.trjava.library.bean.Book;
 import by.trjava.library.controller.command.ICommand;
 import by.trjava.library.service.ILibraryService;
-import by.trjava.library.service.exception.ServiceException;
+import by.trjava.library.service.*;
 import by.trjava.library.service.factory.ServiceFactory;
 
 public class TakeBook implements ICommand {
 
-    private static final char DELIMITER1 = '=';
-    private static final char DELIMITER2 = ';';
+    private static final String RESPONSE1 = "Error during taken book procedure!";
+    private static final String RESPONSE2 = "Now this book is yours!";
+    private static final String RESPONSE3 = "Sorry, you can`t take this book!";
 
     @Override
     public String execute(String request) {
@@ -24,7 +25,7 @@ public class TakeBook implements ICommand {
             response = defineResponse(factory.take(book));
 
         } catch (ServiceException e) {
-            response = "Error during taken book procedure!";
+            response = RESPONSE1;
         }
 
         return response;
@@ -50,8 +51,8 @@ public class TakeBook implements ICommand {
         String response;
 
         if(result == true)
-            response = "Now this book is yours!";
-        else response = "Sorry, you can`t take this book!";
+            response = RESPONSE2;
+        else response = RESPONSE3;
 
         return response;
     }

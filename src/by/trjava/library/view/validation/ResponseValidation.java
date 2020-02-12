@@ -2,9 +2,12 @@ package by.trjava.library.view.validation;
 
 public class ResponseValidation{
 
+    private final static String RESPONSE1 = "You are singed in";
+    private final static String RESPONSE2 = "Registration completed!";
+
     public boolean responseValidation(String response){
 
-        if(response.equals("You are singed in") || response.equals("Registration completed!"))
+        if(response.equals(RESPONSE1) || response.equals(RESPONSE2))
             return true;
 
         return false;

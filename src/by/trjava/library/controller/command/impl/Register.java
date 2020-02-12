@@ -3,13 +3,14 @@ package by.trjava.library.controller.command.impl;
 import by.trjava.library.bean.User;
 import by.trjava.library.controller.command.ICommand;
 import by.trjava.library.service.IClientService;
-import by.trjava.library.service.exception.ServiceException;
+import by.trjava.library.service.ServiceException;
 import by.trjava.library.service.factory.ServiceFactory;
 
 public class Register implements ICommand {
 
-    private static final char DELIMITER1 = '=';
-    private static final char DELIMITER2 = ';';
+    private static final String RESPONSE1 = "Error during registration procedure";
+    private static final String RESPONSE2 = "Registration completed!";
+    private static final String RESPONSE3 = "Sorry! There is a user with the same login!";
 
     @Override
     public String execute(String request) {
@@ -22,7 +23,7 @@ public class Register implements ICommand {
         try {
             response = defineResponse(factory.registration(user));
         } catch (ServiceException e) {
-            response = "Error during registration procedure";
+            response = RESPONSE1;
         }
 
         return response;
@@ -50,9 +51,9 @@ public class Register implements ICommand {
         String response = "";
 
         if(result == true)
-            response = "Registration completed!";
+            response = RESPONSE2;
         if (result == false)
-            response = "Sorry! There is a user with the same login!";
+            response = RESPONSE3;
 
         return response;
     }

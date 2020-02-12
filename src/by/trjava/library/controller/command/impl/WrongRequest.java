@@ -1,14 +1,14 @@
 package by.trjava.library.controller.command.impl;
 
 import by.trjava.library.controller.command.ICommand;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WrongRequest implements ICommand{
 
-    private static final char DELIMITER1 = ' ';
-    private static final char DELIMITER2 = ';';
+    private static final char DELIMITER = ' ';
+    private static final String RESPONSE = "Wrong request!";
+    private static final String COMMAND = "WRONG_REQUEST";
 
     @Override
     public String execute(String request) {
@@ -18,14 +18,14 @@ public class WrongRequest implements ICommand{
     private String extractRequestParameter(String request){
 
         if(!defineIsItWrongRequest(request))
-            return "Wrong request!";
+            return RESPONSE;
 
-        return request.substring(request.indexOf(DELIMITER1),request.indexOf(DELIMITER2));
+        return request.substring(request.indexOf(DELIMITER),request.indexOf(DELIMITER2));
     }
 
     private boolean defineIsItWrongRequest(String request){
 
-        Pattern pattern = Pattern.compile("WRONG_REQUEST");
+        Pattern pattern = Pattern.compile(COMMAND);
         Matcher matcher = pattern.matcher(request);
 
         if(!matcher.find())

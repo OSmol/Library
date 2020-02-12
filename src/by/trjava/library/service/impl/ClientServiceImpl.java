@@ -2,10 +2,10 @@ package by.trjava.library.service.impl;
 
 import by.trjava.library.bean.User;
 import by.trjava.library.dao.IUserDAO;
-import by.trjava.library.dao.exception.DAOException;
+import by.trjava.library.dao.*;
 import by.trjava.library.dao.factory.DAOFactory;
 import by.trjava.library.service.IClientService;
-import by.trjava.library.service.exception.ServiceException;
+import by.trjava.library.service.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,9 +17,12 @@ public class ClientServiceImpl implements IClientService {
         IUserDAO factory = DAOFactory.getInstance().getUserDAO();
 
         try {
-            if(userProfileExistenceCheck(login, password, factory))
+
+            if(userProfileExistenceCheck(login, password, factory)){
                 return  true;
-        } catch (ServiceException e) {
+            }
+
+        } catch (DAOException e) {
             throw new ServiceException("Error! Impossible to sing in!");
         }
 
@@ -31,52 +34,52 @@ public class ClientServiceImpl implements IClientService {
 
         IUserDAO factory = DAOFactory.getInstance().getUserDAO();
 
-        if(userDataCheck(user.getLogin(), factory))
-            return false;
-        else {
-            try {
+        try {
+
+            if(userDataCheck(user.getLogin(), factory)){
+                return false;
+            }
+            else {
                 factory.registration(user);
                 return true;
-            } catch (DAOException e) {
-                throw new ServiceException("Error! Unable to register user");
             }
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error! Unable to register user");
         }
 
     }
 
 
-    private boolean userDataCheck(String data,IUserDAO factory ) throws ServiceException {
+    private boolean userDataCheck(String data,IUserDAO factory ) throws DAOException {
+
         Matcher matcher;
         Pattern pattern;
 
         if(data.length()!=0){
             pattern = Pattern.compile(""+data+"\\s");
-            try {
-                matcher = pattern.matcher(factory.getFullFile());
-                if (matcher.find())
+            matcher = pattern.matcher(factory.getFullFile());
+
+            if (matcher.find()){
                     return true;
-            } catch (DAOException e) {
-                throw new ServiceException();
             }
+
         }
 
         return  false;
     }
 
-    private boolean userProfileExistenceCheck(String login,  String password, IUserDAO factory) throws ServiceException {
+    private boolean userProfileExistenceCheck(String login,  String password, IUserDAO factory) throws DAOException {
+
         Pattern pattern;
         Matcher matcher ;
 
-        try{
-            pattern = Pattern.compile("." + login + "\\s" + password + ";");
-            matcher = pattern.matcher(factory.getFullFile());
+        pattern = Pattern.compile("." + login + "\\s" + password + ";");
+        matcher = pattern.matcher(factory.getFullFile());
 
-            if (!matcher.find())
-                return false;
+        if (!matcher.find())
+            return false;
 
-        } catch (DAOException e) {
-            throw new ServiceException();
-        }
 
        return true;
     }
