@@ -17,30 +17,54 @@ public class FileBookDAOImpl implements IBookDAO {
     @Override
     public void take(Book book) throws DAOException{
 
-        deleteFromFile(book,PATH1 );
-        writeInfoToFile(book,PATH2, INFO, true);
+        try {
+
+            deleteFromFile(book,PATH1 );
+            writeInfoToFile(book,PATH2, INFO, true);
+
+        } catch (IOException e) {
+            throw new DAOException("Error! Unavailable to write to the file");
+        }
     }
 
     @Override
     public void giveBack(Book book) throws DAOException{
 
-        deleteFromFile(book,PATH2 );
-        writeInfoToFile(book,PATH1, INFO, true);
+        try {
+
+            deleteFromFile(book,PATH2 );
+            writeInfoToFile(book,PATH1, INFO, true);
+
+        } catch (IOException e) {
+            throw new DAOException("Error! Unavailable to write to the file");
+        }
     }
 
     @Override
     public String getAvailableBooks() throws DAOException {
 
-        return readInfoFromFile(PATH1);
+        try {
+
+            return readInfoFromFile(PATH1);
+
+        } catch (IOException e) {
+            throw new DAOException("Error! Unavailable to read this file!");
+        }
     }
 
     @Override
     public String getTakenBooks() throws DAOException {
 
-        return readInfoFromFile(PATH2);
+        try {
+
+            return readInfoFromFile(PATH2);
+
+        } catch (IOException e) {
+            throw new DAOException("Error! Unavailable to read this file!");
+        }
     }
 
-    private void writeInfoToFile(Book book, String fileName, String info, boolean append) throws DAOException {
+    private void writeInfoToFile(Book book, String fileName, String info, boolean append) throws IOException {
 
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(new File(fileName), append)))) {
 
@@ -50,13 +74,10 @@ public class FileBookDAOImpl implements IBookDAO {
                 for (String element : info.split(DELIMITER3))
                     pw.printf("\n%s;", element.trim());
             }
-        } catch (IOException e) {
-            throw new DAOException("Error! Unavailable to write to the file");
         }
-
     }
 
-    private String readInfoFromFile(String fileName) throws DAOException {
+    private String readInfoFromFile(String fileName) throws IOException {
 
         StringBuilder stringBuilder = new StringBuilder();
         String tmp;
@@ -66,14 +87,12 @@ public class FileBookDAOImpl implements IBookDAO {
             while ((tmp = bufferedReader.readLine()) != null)
                 stringBuilder.append(tmp);
 
-        } catch (IOException e) {
-           throw new DAOException("Error! Unavailable to read this file!");
         }
 
         return  stringBuilder.toString();
     }
 
-    private void deleteFromFile(Book book, String fileName) throws DAOException {
+    private void deleteFromFile(Book book, String fileName) throws IOException {
 
         StringBuilder file =  new StringBuilder(readInfoFromFile(fileName));
 
