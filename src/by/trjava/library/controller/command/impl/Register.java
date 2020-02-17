@@ -50,7 +50,7 @@ public class Register implements ICommand {
 
         String response = "";
 
-        if(result == true)
+        if(result == true)// java code convention - { } Пушкин ставить будет?
             response = RESPONSE2;
         if (result == false)
             response = RESPONSE3;
