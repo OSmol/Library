@@ -18,7 +18,8 @@ public class ClientServiceImpl implements IClientService {
 
         try {
 
-            if(userProfileExistenceCheck(login, password, factory)){
+            if(userProfileExistenceCheck(login, password, factory)){// есть смысл сначала проверять входные данные, а потом уже делать все остальное
+                // а то вдруг тебе фабрику конструировать надо, ты ее взяла, а данные не те(((
                 return  true;
             }
 
