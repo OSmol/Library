@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    String login;
+    String login;// куда пропали атрибуты доступа?
     String password;
 
     public  User(String login, String password){
