@@ -17,7 +17,7 @@ public final class Controller {
         return response;
     }
 
-    private String executeCommand(String request){
+    private String executeCommand(String request){// не перебарщивай с декомпозицией, ради одного оператора целый отдельный методп исать - перебор
         String  commandName;
 
         commandName = request.substring(0, request.indexOf(DELIMITER));
